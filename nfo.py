@@ -18,8 +18,12 @@ def rlinput(prompt, prefill=""):
 # show dir struct must be show/seasons or modules/episodes
 
 # base path for show
-path = sys.argv[1] 
-
+if len(sys.argv) == 2:
+    path = sys.argv[1]
+else:
+    path = sys.argv[2]
+    switch = sys.argv[1]
+    
 # if .nfo file doesn't exist for the show
 # create it and write xml data
 if not os.path.isfile(path + "tvshow.nfo"):
@@ -39,7 +43,7 @@ for root, dirs, files in os.walk(path): # for each files in every subdirectory
         full_path = os.path.join(root, file)
         filename = full_path.split(os.sep)[-1]
 
-        # if file is not .mp4 skip it
+        # if file is not a video it
         if filename[-4:] not in ext:
             continue
 
@@ -50,7 +54,7 @@ for root, dirs, files in os.walk(path): # for each files in every subdirectory
         episode = re.search(r"\d+", filename).group()
         title = re.search(r"[a-zA-Z].*", filename).group()[:-4]
 
-        # replace .mp4 with nfo
+        # replace extension with nfo
         nfo_name = string.replace(full_path, filename[-4:], ".nfo")
 
         # if .nfo file doesn't exist for episode
