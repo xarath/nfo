@@ -4,6 +4,9 @@ import re
 import string
 import readline
 
+# list of file extension for which we create a .nfo file
+ext = [".mp4", ".mkv"]
+
 # function to ask user for input while specifying an editable default
 def rlinput(prompt, prefill=""):
     readline.set_startup_hook(lambda: readline.insert_text(prefill))
@@ -37,7 +40,7 @@ for root, dirs, files in os.walk(path): # for each files in every subdirectory
         filename = full_path.split(os.sep)[-1]
 
         # if file is not .mp4 skip it
-        if filename[-4:] != ".mp4":
+        if filename[-4:] not in ext:
             continue
 
         season_name = full_path.split(os.sep)[-2]
@@ -48,7 +51,7 @@ for root, dirs, files in os.walk(path): # for each files in every subdirectory
         title = re.search(r"[a-zA-Z].*", filename).group()[:-4]
 
         # replace .mp4 with nfo
-        nfo_name = string.replace(full_path, ".mp4", ".nfo")
+        nfo_name = string.replace(full_path, filename[-4:], ".nfo")
 
         # if .nfo file doesn't exist for episode
         # create it and write xml data
