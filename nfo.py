@@ -15,14 +15,8 @@ def rlinput(prompt, prefill=""):
     finally:
         readline.set_startup_hook()
 
-# show dir struct must be show/seasons or modules/episodes
-
-# base path for show
-path = sys.argv[1] 
-
-# if .nfo file doesn't exist for the show
-# create it and write xml data
-if not os.path.isfile(path + "tvshow.nfo"):
+def createShowNfo ():
+    """Create .nfo nameed tvshow.nfo for a show."""
     showtitle = raw_input("Enter show title:")
     year = raw_input("Enter year:")
 
@@ -32,6 +26,16 @@ if not os.path.isfile(path + "tvshow.nfo"):
     fd.write("<showtitle>%s</showtitle>\n"%showtitle)
     fd.write("<year>%s</year>\n"%year)
     fd.write("</tvshow>")
+    
+# show dir struct must be show/seasons or modules/episodes
+
+# base path for show
+path = sys.argv[1] 
+
+# if .nfo file doesn't exist for the show
+# create it and write xml data
+if not os.path.isfile(path + "tvshow.nfo"):
+    createShowNfo()
     
 for root, dirs, files in os.walk(path): # for each files in every subdirectory
     for file in files: 
