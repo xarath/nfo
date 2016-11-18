@@ -32,6 +32,7 @@ def createShowNfo ():
 # base path for show
 if len(sys.argv) == 2:
     path = sys.argv[1]
+    switch = ""
 else:
     path = sys.argv[2]
     switch = sys.argv[1]
@@ -74,4 +75,18 @@ for root, dirs, files in os.walk(path): # for each files in every subdirectory
             fd.write("<season>%s</season>\n"%season)
             fd.write("<episode>%s</episode>\n"%episode)
             fd.write("</episodedetails>")
+            fd.close()
+
+        elif switch == "-r":
+            print "Filename: %s"%filename
+
+            fd = open(nfo_name, "r+")
+            file_content = fd.read()
+            start = string.find(file_content, "<title>") + 7
+            end = string.find(file_content, "</title>")
+            title = file_content[start:end]
+            string.replace(file_content, title, "")
+            title = rlinput("Choose episode title:", title)
+            fd.seek(start)
+            fd.write(title)
             fd.close()
